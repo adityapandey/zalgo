@@ -1,3 +1,4 @@
+// Package zalgo is an implementation of eeemo.net into Go.
 package zalgo
 
 import (
@@ -71,17 +72,21 @@ func randZalgo(z []rune) rune {
 
 type level int
 
+// Corruption level determines how much embellishment is applied to the input.
 const (
 	Min level = iota
 	Normal
 	Max
 )
 
+// Options for zalgofying input text.
+// Up, Mid, Down determine which runes to add to the input.
 type Options struct {
 	Corruption    level
 	Up, Mid, Down bool
 }
 
+// Writer is an implementation of io.Writer that outputs zalgofied text.
 type Writer struct {
 	w   io.Writer
 	Opt Options
@@ -144,6 +149,7 @@ func (z *Writer) Write(p []byte) (int, error) {
 	return len(p), nil
 }
 
+// NewWriter wraps an io.Writer, which is sent zalgofied input.
 func NewWriter(w io.Writer) *Writer {
 	return &Writer{w: w, Opt: Options{Corruption: Min}}
 }
